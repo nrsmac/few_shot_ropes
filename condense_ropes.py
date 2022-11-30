@@ -3,7 +3,7 @@ import pandas as pd
 from datasets import load_dataset
 import json
 
-SPLIT = "validation"
+SPLIT = "test"
 
 def main():
     ropes = load_dataset("ropes", split=SPLIT)
