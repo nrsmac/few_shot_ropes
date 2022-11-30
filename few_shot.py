@@ -18,16 +18,19 @@ Answer:"""
 
 ropes = json.loads(open("validation_condensed.json", 'r').read()) 
 
-model = AutoModelForCausalLM.from_pretrained("EleutherAI/gpt-j-6B")
+print("Loading model...")
 tokenizer = AutoTokenizer.from_pretrained("bigscience/bloom", device_map='auto', torch_dtype='auto')
+model = AutoModelForCausalLM.from_pretrained("EleutherAI/gpt-j-6B")
 
 for i, r in enumerate(tqdm(ropes)):
 	if i == 1:
 		break
 	background, situation, questions, answers = r.values()
 	prompt = get_prompt(background, situation, questions, answers)
+	
+	print(f"Prompt: {prompt}")
 
-	print("Tokenizing prompt: \n{prompt}")
+	print("Tokenizing prompt: ")
 	input_ids = tokenizer(prompt, return_tensors="pt").input_ids
 
 	print("Feeding to model...")
