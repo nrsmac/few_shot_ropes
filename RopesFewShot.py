@@ -20,7 +20,7 @@ class RopesFewShot:
         for q, a in list(zip(questions, answers))[:-1]:
             prompt += f'###\nQuestion: {q}\nAnswer: {a}\n'
 
-        prompt += f'###\nQuestion: {questions[-1]}\nAnswer: '
+        prompt += f'###\nQuestion: {questions[-1]}\nAnswer:'
         return prompt, answers[-1]
 
     def get_prompts_and_targets(self, num_prompts=None):
