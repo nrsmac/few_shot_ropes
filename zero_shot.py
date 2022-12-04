@@ -3,15 +3,17 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from tqdm import tqdm
 
 def get_prompt(background, situation, question):
-    return f"""Given the following information, answer the questions below:
-Information: {background} {situation}
-Q:{question}
-A:"""
+    return f'''
+{background} {situation}\nQuestion:{question} Answer:
+    '''
 
-ropes = load_dataset("ropes", split="validation")
+split = 'validation'
+ropes = load_dataset("ropes", split=split)
 
-model = AutoModelForCausalLM.from_pretrained("EleutherAI/gpt-neox-20b")
-tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neox-20b")
+model_name = 'EleutherAI/gpt-neox-20b'
+
+model = AutoModelForCausalLM.from_pretrained(model_name)
+tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 pred_answers = [] 
 
@@ -36,7 +38,7 @@ for i, r in enumerate(tqdm(ropes)):
     print(f"{y_hat=}")
     pred_answers.append(f"{prompt}:{y_hat} CORRECT:{answers}\n")
 
-out = f"zero_shot_gpt-j_answers.txt"
+out = f"zero_shot_{model_name}_{split}_answers.txt"
 try:
     with open(out, 'w') as f:
         f.writelines(pred_answers)
